@@ -8,3 +8,11 @@ venv\Scripts\activate
 deactivate
 
 
+run backend 
+
+python main.py
+
+run frontend 
+
+npm run dev
+
