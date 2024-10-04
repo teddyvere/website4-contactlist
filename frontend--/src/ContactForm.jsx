@@ -1,9 +1,11 @@
 import { useState } from "react";
 
-const ContactForm = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+const ContactForm = ({existingContact = {}, updateCallback}) => {
+  const [firstName, setFirstName] = useState(existingContact.firstName || "");
+  const [lastName, setLastName] = useState(existingContact.lastName || "");
+  const [email, setEmail] = useState(existingContact.email || "");
+
+  const updating = object.entires(existingContact).length !== 0
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -14,7 +16,7 @@ const ContactForm = () => {
       email,
     };
 
-    const url = "http://127.0.0.1:5000/create_contact"; // Use ":" before port
+    const url = "http://127.0.0.1:5000/" + (updating ? `update_contact/${existingContact.id}` : "create_contact"); // Use ":" before port
     const options = {
       method: "POST",
       headers: {
@@ -25,6 +27,12 @@ const ContactForm = () => {
 
     try {
       const response = await fetch(url, options);
+      if (response.status !== 201 && response.status!== 200) {
+        const data = await response.json();
+        alert(data.message);
+      } else {
+          updateCallback();
+      }
       const message = await response.json();
       
       if (response.status !== 201 && response.status !== 200) {
