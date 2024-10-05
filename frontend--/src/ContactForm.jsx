@@ -74,7 +74,7 @@ const ContactForm = ({existingContact = {}, updateCallback}) => {
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <button type="submit">Create Contact</button>
+      <button type="submit">{updating ? "update" : "Create"}</button>
     </form>
   );
 };
