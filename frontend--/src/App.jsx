@@ -48,14 +48,14 @@ function App() {
       <ContactList contacts={contacts} updateContact={openEditModal} />
       <button onClick={openCreateModal}>Create New Contact</button>
 
-      {isModalOpen && (
+      {isModalOpen &&
         <div className="modal">
           <div className="modal-content">
             <span className="close" onClick={closeModal}>&times;</span>
             <ContactForm existingContact={currentContact} updateCallback={onUpdate} />
           </div>
         </div>
-      )}
+      }
     </>
   );
 }
