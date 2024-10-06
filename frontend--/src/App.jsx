@@ -13,10 +13,14 @@ function App() {
   }, []);
 
   const fetchContacts = async () => {
-    const response = await fetch("http://127.0.0.1:5000/contacts");
-    const data = await response.json();
-    setContacts(data.contacts);
-    console.log(data.contacts);
+    try {
+      const response = await fetch("http://127.0.0.1:5000/contacts");
+      const data = await response.json();
+      setContacts(data.contacts);
+      console.log(data.contacts);
+    } catch (error) {
+      console.error('Error fetching contacts:', error);
+    }
   };
 
   const closeModal = () => {
@@ -25,29 +29,30 @@ function App() {
   };
 
   const openCreateModal = () => {
-    if (!isModalOpen) setIsModalOpen(true);
+    setCurrentContact({}); // Clear any current contact when creating a new one
+    setIsModalOpen(true);
   };
 
-  const openEditModal = () => {
-    if (isModalOpen) return
-    setCurrentContact(contact)
-    setIsModalOpen(true)
-  }
+  const openEditModal = (contact) => {
+    setCurrentContact(contact);
+    setIsModalOpen(true);
+  };
 
   const onUpdate = () => {
-    closeModal()
-    fetchContacts()
-  }
+    closeModal();
+    fetchContacts();
+  };
 
   return (
     <>
-      <ContactList contacts={contacts} updateContact={openEditModal} updateCallback={onUpdate} />
-      <button onClick={openCreateModal}>Create New Contact</button> {/* Fixed onClick typo and removed incorrect JSX */}
+      <ContactList contacts={contacts} updateContact={openEditModal} />
+      <button onClick={openCreateModal}>Create New Contact</button>
+
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
             <span className="close" onClick={closeModal}>&times;</span>
-            <ContactForm existingContact={currentContact} updateCallback={onUpdate}/>
+            <ContactForm existingContact={currentContact} updateCallback={onUpdate} />
           </div>
         </div>
       )}
