@@ -1,6 +1,11 @@
 import React from "react"
 
 const ContactList = ({ contacts, updateContact, updateCallback }) => {
+    const onDelete =(id) => {
+        try{
+            const response = await fetch(`http://127.0.0.1/delete_contact/${id}`)
+        }
+    }
     return <div>
         <h2>Contacts</h2>
         <table>
