@@ -7,7 +7,7 @@ const ContactList = ({ contacts, updateContact, updateCallback }) => {
                 method: "DELETE"
             }
             const response = await fetch(`http://127.0.0.1/delete_contact/${id}`)
-            if (response.status === 2) {
+            if (response.status === 200) {
                 updateCallback()
             } else {
                 console.error("Failed to delete contact")
@@ -36,7 +36,7 @@ const ContactList = ({ contacts, updateContact, updateCallback }) => {
                         <td>{contact.email}</td>
                         <td>
                             <button onClick={() => updateContact(contact)}>Update</button>
-                            <button>Delete</button>
+                            <button onClick={() => onDelete(contact.id)}>Delete</button>
                         </td>
                     </tr>
                 ))}
